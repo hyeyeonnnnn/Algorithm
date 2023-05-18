@@ -1,51 +1,51 @@
-package alg;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Stack;
-import java.util.StringTokenizer;
 
 public class Main {
-    static int result[];//스택배열
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        int num = Integer.parseInt(bf.readLine());
+        
+        int result[]=new int[num];
+        int cnt = 0;
     
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-		int num = Integer.parseInt(bf.readLine());
-		
-		int cnt = 0;
-		System.out.println(num);
-		for(int i=0;i<num;i++) {
-			String s = bf.readLine();
-			StringTokenizer st = new StringTokenizer(s, " ");
-			
-			if(st.nextToken().equals("push")) {
-				result[cnt] = Integer.parseInt(array[1]);
-				cnt++;
-				}
-			else if(st.nextToken().equals("top")) {
-				if(result.length == 0)
-					System.out.println(1);
-				else
-					System.out.println(result[cnt]);
-			}
-			else if(st.nextToken().equals("size"))
-				System.out.println(cnt);
-			else if(array[0].equals("empty")) {
-				if(result.length == 0)
-					System.out.println(1);
-				else
-					System.out.println(0);
-			}
-			else if(array[0].equals("pop")) {
-				if(result.length == 0)
-					System.out.println(-1);
-				else {
-					System.out.println(result[cnt]);
-					cnt--;
-				}
-					
-			}
-			
-		}
-	}
-}
+        for(int i=0;i<num;i++) {
+            String[] st = bf.readLine().split(" ");
+            
+            if(st[0].equals("push")) {
+                result[cnt] = Integer.parseInt(st[1]);
+                cnt++;
+                }
+            else {
+                switch(st[0]) {
+                case "top":
+                if(result.length == 0)
+                    sb.append(-1 + "\n");
+                else
+                    sb.append(result[cnt - 1] + "\n");
+            break;
+            case "size":
+                sb.append(cnt + "\n");
+                break;
+            case "empty":
+                if(result.length == 0)
+                    sb.append(1 + "\n");
+                else
+                    sb.append(0 + "\n");
+            break;
+            case "pop":
+                if(result.length == 0)
+                    sb.append(-1 + "\n");
+                else {
+                    sb.append(result[cnt - 1] + "\n");
+                    result[cnt-- -1] = 0;
+                }
+               break;
+            
+        }}}
+        System.out.print(sb);
+        bf.close();
+            
+}}
