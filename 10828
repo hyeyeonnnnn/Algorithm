@@ -7,7 +7,6 @@ public class Main {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         int num = Integer.parseInt(bf.readLine());
-        
         int result[]=new int[num];
         int cnt = 0;
     
