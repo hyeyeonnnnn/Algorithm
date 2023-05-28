@@ -1,0 +1,48 @@
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.StringTokenizer;
+
+
+public class Main {
+
+    private static boolean isNumber(String s) {
+        try {
+            int i = Integer.parseInt(s);
+        }catch(NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+    //런타임 에러->문자열 탐색에서는 HashMap의 효율이 좋음
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        
+        int n1 = Integer.parseInt(st.nextToken());
+        int n2 = Integer.parseInt(st.nextToken());
+     
+        
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        String[] arr = new String[n1+1];
+        for(int i=1;i<=n1;i++){
+          String s = br.readLine();
+          map.put(s, i);
+          arr[i] = s;
+        }
+        
+        for(int j=0;j<n2;j++) {
+            String result = br.readLine();
+            if(isNumber(result))
+                sb.append(arr[Integer.parseInt(result)]);
+            else {
+                sb.append(map.get(result));
+            }
+           sb.append("\n");
+        }
+       
+        System.out.println(sb);
+}
+}
