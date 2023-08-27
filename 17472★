@@ -1,0 +1,157 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+	static int N, M, map[][];
+	static boolean[] visited;
+	
+	//번호를 2~섬의 개수+1
+	public static void dfs(int x, int y, int no) {
+		int dx[] = {-1, 0, 1, 0}, dy[]= {0, 1, 0, -1};
+		for(int i=0; i<4; i++) {
+			int nx = x+dx[i];
+			int ny = y+dy[i];
+			if(0<=nx && nx<N && 0<=ny && ny<M && map[nx][ny]==1) {
+				map[nx][ny] = no;
+				dfs(nx, ny, no);
+			}
+		}
+	}
+
+	static class Node implements Comparable<Node>{
+
+		int to;
+		int cost;
+		
+		public Node(int to, int cost) {
+			this.to = to;
+			this.cost = cost;
+		}
+		@Override
+		public int compareTo(Node o) {
+			return this.cost - o.cost;
+		}
+		
+	}
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		map = new int[N][M];
+		
+		for(int i=0; i<N; i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j=0; j<M; j++) {
+				map[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+		//1. 섬 번호 붙이기
+		int no=2;
+		for(int i=0; i<N; i++) {
+			for(int j=0; j<M; j++) {
+				if(map[i][j]==1) {
+					map[i][j]=no;
+					dfs(i, j, no);
+					no++;
+				}
+			}
+		}
+		//2. 거리 측정
+		int distance[][] = new int[no][no]; //i => j까지 거리저장
+		visited = new boolean[no];
+
+		for(int i=2; i<no; i++) {
+			Arrays.fill(distance[i], Integer.MAX_VALUE);
+		}
+		//2-1. 가로
+		int prev = 0, zero = 0;
+		for(int i=0; i<N; i++) {
+			for(int j=0; j<M; j++) {
+				if(map[i][j]>1) {
+					if(prev==0) {
+						prev = map[i][j];
+					}
+					else {
+						if(prev!=map[i][j] && zero > 1) {
+							int now = map[i][j];
+							distance[prev][now] = Math.min(distance[prev][now], zero);
+							distance[now][prev] = distance[prev][now];
+						}
+						prev = map[i][j];
+					}
+					zero=0;
+				}
+				else {
+					zero++;
+				}
+			}
+			prev = 0;//이전 없음
+			zero = 0;
+		}
+		//2-2. 세로
+		prev = 0; 
+		zero = 0;
+		for(int j=0; j<M; j++) {
+			for(int i=0; i<N; i++) {
+				if(map[i][j]>1) {
+					if(prev==0) {
+						prev = map[i][j];
+					}
+					else {
+						if(prev!=map[i][j] && zero>1) {
+							int now = map[i][j];
+							distance[prev][now] = Math.min(distance[prev][now], zero);
+							distance[now][prev] = distance[prev][now];
+						}
+						prev = map[i][j];
+					}
+					zero=0;
+				}
+				else {
+					zero++;
+				}
+			}
+			prev = 0;//이전 없음
+			zero = 0;
+		}
+		
+		//3. MST 구하기
+		PriorityQueue<Node> pq = new PriorityQueue<>();
+		pq.add(new Node(2, 0));
+		int result = 0;
+
+		while(!pq.isEmpty()) {
+			Node n = pq.poll();
+			int to = n.to;
+			int cost = n.cost;
+			
+			if(visited[to]) continue;
+			visited[to] = true;
+			result += cost;
+		
+			for(int i=2;i<no;i++) {
+				if(distance[to][i]>0) {
+					if(!visited[i]) {
+						pq.add(new Node(i, distance[to][i]));
+					}
+				}
+			}
+			
+		}
+		
+		
+		if(result>N*M)
+			System.out.println(-1);
+		else
+			System.out.println(result);
+	}
+
+}
