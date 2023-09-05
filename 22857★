@@ -1,0 +1,59 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.StringTokenizer;
+
+public class Main {
+	static int[] arr;
+	static int[] odd_cnt;
+
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		int n = Integer.parseInt(st.nextToken());
+		int k = Integer.parseInt(st.nextToken());
+		
+		arr = new int[n+1];
+		odd_cnt = new int[n+1];
+	
+		int cnt = 0, odd_idx = 1;
+	
+
+		st = new StringTokenizer(br.readLine());
+		for(int i=1;i<=n;i++) {
+			arr[i] = Integer.parseInt(st.nextToken());
+			if(arr[i]%2==1)
+				cnt++;
+			else {
+				odd_cnt[odd_idx++] = cnt;
+				cnt=0;
+			}
+		}
+		
+		
+
+		int end = 0;
+	    int sum = 0; // 부분 합
+	    int count = 0; // 개수 
+
+		// i 가 start
+	    for (int i = 1; i <= n; i++) {
+	        while (end < n && sum < k) {
+	            sum += odd_cnt[end];
+	            end++;
+	        }
+
+	        if (sum == k) {
+	            count++;
+	        }
+
+	        sum -= arr[i];
+	    }
+	    System.out.println(count);
+	    }
+}
+
