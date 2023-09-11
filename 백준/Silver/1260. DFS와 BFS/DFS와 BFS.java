@@ -1,75 +1,75 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-
 public class Main {
-	static int M;
-	static int N;
-	static int V;
 	static int[][] graph;
-	static int[][] graph2;
-	static boolean[] visited;
-
+	static boolean[] check1;
+	static boolean[] check2;
+	static int n, m;
 	
-	static void dfs(int x) {
-		visited[x] = true;
+	static void dfs(int start) {
+		check1[start] = true;
+		System.out.print(start+" ");
 		
-		System.out.print(x+" ");
-		
-		for(int i=1;i<=N;i++) {
-			if(!visited[i] && graph[x][i]==1)
+		for(int i=1;i<=n;i++) {
+			if(graph[start][i]==1 && !check1[i]) {
 				dfs(i);
-		}	
+			}		
+		}
 	}
 	
-	static void bfs(int x) {
-		boolean[] visited2 = new boolean[N+1];
-		Queue<Integer> que = new LinkedList<Integer>();
+	static void bfs(int start) {
+		Queue<Integer> q = new LinkedList<>();
 		
-		visited2[x] = true;
-		que.offer(x);
+		check2[start] = true;
+		q.add(start);
 		
-		while(!que.isEmpty()) {
-			int node = que.poll();
-			System.out.print(node+" ");
-			for(int i=1;i<=N;i++) {
-				if(!visited2[i] && graph2[node][i]==1) {
-					que.offer(i);
-					visited2[i] = true;
+		while(!q.isEmpty()) {
+			int now = q.poll();
+			System.out.print(now+" ");
+			
+			for(int i=1;i<=n;i++) {
+				if(graph[now][i]==1 && !check2[i]) {
+					check2[i] = true;
+					q.add(i);
 				}
 			}
 		}
 		
 	}
-
-	public static void main(String[] args) throws NumberFormatException, IOException  {
+	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		V = Integer.parseInt(st.nextToken());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		int v = Integer.parseInt(st.nextToken());
 		
-		graph = new int[N+1][N+1];
-		graph2 = new int[N+1][N+1];
-		visited = new boolean[N+1];
+		graph = new int[n+1][n+1];
+		check1 = new boolean[n+1];
+		check2 = new boolean[n+1];
 		
-		for(int i=0;i<M;i++) {
-			StringTokenizer st2 = new StringTokenizer(br.readLine());
-			int x = Integer.parseInt(st2.nextToken());
-			int y = Integer.parseInt(st2.nextToken());
-			graph[x][y] = graph[y][x] = 1;
-			graph2[x][y] = graph2[y][x] = 1;
+		for(int i=0;i<m;i++) {
+			st = new StringTokenizer(br.readLine());
+			int start = Integer.parseInt(st.nextToken());
+			int end = Integer.parseInt(st.nextToken());
+			graph[start][end] = graph[end][start] = 1;
 		}
 		
-		dfs(V);
+		dfs(v);
 		System.out.println();
-		bfs(V);
+		bfs(v);
+		System.out.println();
+		
 	}
+	
 }
+
