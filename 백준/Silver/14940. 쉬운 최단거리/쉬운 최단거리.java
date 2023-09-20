@@ -28,7 +28,7 @@ public class Main {
 				int nextX = nowX+dx[i];
 				int nextY = nowY+dy[i];
 				if(nextX>=0&&nextX<n && nextY>=0&&nextY<m) {
-					if(graph[nextX][nextY]==1&&!check[nextX][nextY]) {
+					if(graph[nextX][nextY]==-1&&!check[nextX][nextY]) {
 						check[nextX][nextY] = true;
 						q.add(new int[] {nextX, nextY});
 						graph[nextX][nextY] = graph[nowX][nowY]+1;
@@ -48,40 +48,28 @@ public class Main {
 		graph = new int[n][m];
 		check = new boolean[n][m];
 		
+		int arrivalX=0, arrivalY=0;
 		for(int i=0;i<n;i++) {
 			st = new StringTokenizer(br.readLine());
 			for(int j=0;j<m;j++) {
 				graph[i][j] = Integer.parseInt(st.nextToken());
-			}
-		}
-		
-		int arrivalX = 0;
-		int arrivalY = 0;
-		for(int i=0;i<n;i++) {
-			for(int j=0;j<m;j++) {
+				if(graph[i][j]==1)
+					graph[i][j]=-1;
 				if(graph[i][j]==2) {
-					arrivalX = i;
-					arrivalY = j;
+					graph[i][j]=0;
+					arrivalX=i;
+					arrivalY=j;
 				}
 			}
 		}
+	
 		
-		graph[arrivalX][arrivalY] = 0;
 		bfs(arrivalX, arrivalY);
 		
 	
 		for(int i=0;i<n;i++) {
-			for(int j=0;j<m;j++) {
-				if(i==arrivalX-1&&j==arrivalY || i==arrivalX+1&&j==arrivalY || i==arrivalX&&j==arrivalY-1 || i==arrivalX&&j==arrivalY+1) {
-					System.out.print(graph[i][j]+" ");
-				}
-				else if(graph[i][j] == 1) {
-					System.out.print(-1+" ");
-				}
-				else {
-					System.out.print(graph[i][j]+" ");
-
-				}			
+			for(int j=0;j<m;j++) {				
+			System.out.print(graph[i][j]+" ");		
 			}
 			System.out.println();
 		}
