@@ -23,7 +23,6 @@
 
 [Java로 구현해보기]
 에라토스테네스의 체를 Java로 구현해보겠습니다.
-
  
 
 public class Solution {
