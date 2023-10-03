@@ -17,7 +17,6 @@ public class Main {
 	static int[] dx = {1,-1,1,-1,0,0,1,-1};
 	static int[] dy = {0,0,1,-1,1,-1,-1,1};
 	
-	static int cnt = 0;
 	static void bfs(int x, int y) {
 		Queue<Integer> q = new LinkedList<>();
 		q.add(x);
