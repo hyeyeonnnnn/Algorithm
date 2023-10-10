@@ -1,0 +1,55 @@
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+    static int n, k;
+    static int[] dp;
+    static Queue<Integer> q = new LinkedList<>();
+    static int[] dx = {1,-1};
+
+    static void bfs(int x) {
+        q.add(x);
+        while(!q.isEmpty()){
+            int now = q.poll();
+
+            if(now == k) {
+                break;
+            }
+
+
+            int next2 = now*2;
+            while(next2<=100000 && dp[next2]==-1){
+                    dp[next2] = dp[now];
+                    q.add(next2);
+                    next2 *= 2;
+                }
+
+            for(int i=0;i<2;i++){
+                int next = now + dx[i];
+                if(next>=0 && next<=100000 && dp[next]==-1){
+                    dp[next] = dp[now] + 1;
+                    q.add(next);
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) throws NumberFormatException, IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+        dp = new int[100001];
+
+        Arrays.fill(dp, -1);
+
+        dp[n] = 0;
+
+        bfs(n);
+        System.out.println(dp[k]);
+    }
+}
+왜 틀린거지?
