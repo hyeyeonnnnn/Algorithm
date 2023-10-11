@@ -1,0 +1,59 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+    static class Album implements Comparable<Album>{
+        String song;
+        int cnt;
+
+        public String getSong() {
+            return song;
+        }
+
+        public Album(String song, int cnt) {
+            this.song = song;
+            this.cnt = cnt;
+        }
+
+        @Override
+        public int compareTo(Album o) {
+            if(this.cnt<o.cnt)
+                return 1;
+            else return -1;
+        }
+    }
+    public static int[] solution(String[] genres, int[] plays) {
+        int[] answer = {};
+        HashMap<String, Integer> map = new HashMap<>();
+
+        for(int i=0;i<genres.length;i++){
+            map.put(genres[i], map.getOrDefault(genres[i], 0)+1);
+        }
+
+        PriorityQueue<Album> q = new PriorityQueue<>();
+        for(String key: map.keySet()){
+            q.add(new Album(key, map.get(key)));
+        }
+
+        Queue<Integer> playsQ = new LinkedList<>();
+        for(int i=0;i<q.size();i++){
+            for(int j=0;j<genres.length;j++){
+                if(q.peek().getSong().equals(genres[j])){
+                    playsQ.add()
+                }
+            }
+        }
+
+
+        return answer;
+    }
+
+    public static void main(String[] args) throws NumberFormatException, IOException {
+        String[] genres = {"classic", "pop", "classic", "classic", "pop"};
+        int[] plays = {500, 600, 150, 800, 2500};
+        System.out.println(solution(genres, plays));
+
+    }
+}
