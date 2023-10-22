@@ -46,6 +46,7 @@ public class Main {
 //                				length++;
 //                		}
 //        			}
+// 반례 -> 1 / 1 1
         		}
         		
         	}
