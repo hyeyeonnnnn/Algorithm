@@ -4,10 +4,10 @@ ON m.member_id = r.member_id
 WHERE m.member_id IN (SELECT member_id
                      FROM rest_review 
                      GROUP BY member_id
-                     HAVING count(review_id) = (SELECT max(t.cnt)
-                                                FROM (SELECT member_id, count(review_id) as cnt
-                                                      FROM rest_review
-                                                GROUP BY member_id) t
+                     HAVING count(review_id) = (SELECT max(count(*))
+                                                FROM rest_review
+                                                GROUP BY member_id
                             ) 
                      )
 ORDER BY REVIEW_DATE, r.review_text
+
