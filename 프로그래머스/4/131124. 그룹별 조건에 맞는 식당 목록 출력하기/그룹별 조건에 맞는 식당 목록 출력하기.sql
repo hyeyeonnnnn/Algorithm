@@ -7,7 +7,6 @@ WHERE m.member_id IN (SELECT member_id
                      HAVING count(review_id) = (SELECT max(count(*))
                                                 FROM rest_review
                                                 GROUP BY member_id
-                            ) 
+                                               ) 
                      )
 ORDER BY REVIEW_DATE, r.review_text
-
